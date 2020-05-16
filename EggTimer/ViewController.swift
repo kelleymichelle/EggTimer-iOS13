@@ -10,14 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let eggTimes = ["Soft": 5, "Medium": 7, "Hard": 12]
+    let eggTimes = ["Soft": 300, "Medium": 420, "Hard": 720]
     
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
     
-        let hardness = sender.currentTitle
+        let hardness = sender.currentTitle!
         
-        print(eggTimes[hardness!]!)
+        print(eggTimes[hardness]!)
     }
     
 }
