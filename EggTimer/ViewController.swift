@@ -10,7 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let eggTimes = ["Soft": 300, "Medium": 420, "Hard": 720]
+    @IBOutlet weak var eggLabel: UILabel!
+    
+    let eggTimes = ["Soft": 3, "Medium": 5, "Hard": 7]
     
     var timer = Timer()
     var timerIsRunning = false
@@ -24,14 +26,18 @@ class ViewController: UIViewController {
     }
     
     func eggTimer(time: Int) {
-        var runCount = 0
+        
+        timer.invalidate()
+        
+        var runCount = time
 
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
         print("Cook Time is: \(runCount)")
-        runCount += 1
+        runCount -= 1
 
-        if runCount == time {
+        if runCount == 0 {
             timer.invalidate()
+            self.eggLabel.text = "Done!"
         }
     }
     }
