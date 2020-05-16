@@ -11,35 +11,41 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var eggLabel: UILabel!
+    @IBOutlet weak var progressBar: UIProgressView!
     
     let eggTimes = ["Soft": 3, "Medium": 5, "Hard": 7]
     
     var timer = Timer()
-    var timerIsRunning = false
+    var totalTime = 0
+    var secondsPassed = 0
     
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
-    
-        let hardness = sender.currentTitle!
-        
-        eggTimer(time: eggTimes[hardness]!)
-    }
-    
-    func eggTimer(time: Int) {
         
         timer.invalidate()
+        let hardness = sender.currentTitle!
+        totalTime = eggTimes[hardness]!
         
-        var runCount = time
-
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-        print("Cook Time is: \(runCount)")
-        runCount -= 1
-
-        if runCount == 0 {
-            timer.invalidate()
-            self.eggLabel.text = "Done!"
-        }
+        progressBar.progress = 0.0
+        secondsPassed = 0
+        eggLabel.text = hardness
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
-    }
+    
+    @objc func updateTimer() {
+           if secondsPassed < totalTime {
+               secondsPassed += 1
+               progressBar.progress = Float(secondsPassed) / Float(totalTime)
+               print(Float(secondsPassed) / Float(totalTime))
+           } else {
+               timer.invalidate()
+               eggLabel.text = "DONE!"
+               
+//               let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+//               player = try! AVAudioPlayer(contentsOf: url!)
+//               player.play()
+           }
+       }
     
 }
